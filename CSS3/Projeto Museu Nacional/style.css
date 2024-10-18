@@ -1,0 +1,62 @@
+
+body{
+	font:12px "Lucida Console", "arial", sans-serif;
+	background: url("img/fundo.png") repeat-x;
+}
+#interface{
+	width: 82%;
+	margin: 0px auto;
+}
+ul{
+	list-style-type: none;
+}
+a:active, a:visited, a:link{
+	color: #af670a;
+	text-decoration: none;
+}
+a:hover{
+	color: #227115;
+}
+/*Header*/
+
+header a h1{
+background: url("img/logo.png") no-repeat;
+text-indent: -9999px;
+}
+#logo a {
+	width: 248px;
+	height: 21px;
+	display: block;
+}
+header{
+	padding: 15px 0px;
+	height: 55px;
+	position: relative;
+	border: 1px solid red;
+}
+header ul{
+ float: right;
+ position: absolute;
+ top: 27.5px;
+ right: 0px;
+}
+header ul li{
+float: left;
+margin-right: 25px;
+}
+header ul li a{
+	text-transform: uppercase;
+	font-size: 16px;
+
+}
+header ul li a:hover{
+border-bottom: 1px solid whitesmoke;
+font-size: 17px;
+}
+/******PRINCIPAL*****/
+#principal{
+
+}
+#conteudo{
+	
+}

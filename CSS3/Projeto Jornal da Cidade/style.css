@@ -1,0 +1,104 @@
+body{
+	padding: 0px; margin: 0px;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+/****h2{
+	margin: 0px; 
+}
+#principal{
+border: 0px solid red;
+width: 80% /*720;
+margin: 0px auto;
+
+}
+#marca{
+border: 0px solid red;
+text-align: center;background-color: grey;
+height: 120px; line-height: 120px; 
+
+}
+#conteudo{
+border: 0px solid red;width: 75% /*530px;
+float: right;
+}
+#conteudo1{
+border: 0px solid red;
+width: 320px; padding: 10px;
+float: left;
+}
+#conteudo2{
+border: 0px solid red; padding: 10px;
+background-color: whitesmoke;
+width: 160px; float: right;
+}
+#navegacao{
+border: 0px solid red; width:22% /*160px; padding: 10px;
+float: left; background-color: whitesmoke;
+}
+#navegacao ul {
+	border: 0px solid red;
+	list-style-type: none;
+	
+}
+ul a{
+	text-decoration: none; color: blue;
+}
+li>a:hover{
+	color: mediumvioletred; text-decoration: underline;
+}
+#rodape{
+border: 0px solid red; clear: both;
+background-color: grey;
+}
+table{
+	border: 0px solid red;
+	width: 800px;
+	border-collapse: collapse;
+	margin: 5px;
+
+} 
+th{
+border: 0px solid red ; border-right: 1px solid #F3FA04;
+text-align: left; text-transform: uppercase;
+letter-spacing: 0.1em;
+border-bottom: 1px solid #55504E;
+border-top: 1px solid #E4DCD9;
+padding: 5px;
+}
+td{
+	border: 0px solid red; border-collapse: collapse;
+	padding: 4px; border-right: 1px solid #F3FA04;
+}
+tr:hover{
+background-color: #9EE1F7;
+}
+ 
+.right{
+	text-align: right;
+	border-right: none;
+}
+*/
+/*
+fieldset{
+	width: 720px;
+	background: #f8f8f8; border: 1px solid #ccc;
+	margin: 5px;
+}
+legend{
+	font-weight: bold;
+}
+input[type="text"]{
+	width: 20em;
+}
+label{
+	display: block;
+	cursor: pointer;
+}
+textarea{
+	width:25em; height: 15em; 
+}
+input[type="submit"]{
+	margin: 5px;
+
+}
+*/

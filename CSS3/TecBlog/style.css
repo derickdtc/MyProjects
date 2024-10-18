@@ -1,0 +1,13 @@
+
+#principal{
+	border: 0px solid red;
+	width: 920px; 
+	
+}
+.noticia{
+	width: 250px; padding: 10px; background-color: whitesmoke;
+	margin: 12px; float:  left; 
+}
+.foto{
+	width: 250px; padding: 5px; float: left; margin: 15px;
+}

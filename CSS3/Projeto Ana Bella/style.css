@@ -1,0 +1,28 @@
+body{
+	background-image: url("images/fundo.png");
+}
+a{
+text-decoration: none;	color: #5858FA; margin: 5px;
+	
+}
+h3{
+color:#BDBDBD ;
+}
+
+/*IDs*/
+#link{
+	width: 860px;
+	background-color: #BDBDBD;
+	padding: 20px;font-family:"Helvetica",sans-serif ;
+	font-size: 18px;  
+	
+}
+#rodape{
+text-align: center;
+width: 900px;
+}
+/*Classes*/
+.sobre{
+	width: 900px;
+	background-color: whitesmoke;
+}
