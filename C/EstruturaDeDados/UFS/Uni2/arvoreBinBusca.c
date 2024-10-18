@@ -70,4 +70,6 @@ tipoNode* buscaNo2(tipoNode *atual , int n){
     }
     return NULL;
 }
-
+int main(){
+    return 0;
+}   
