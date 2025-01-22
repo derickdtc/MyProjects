@@ -149,11 +149,11 @@ void mergeSort(ContainerErrado* arr, int left, int right) {
 }
 
 
-int main(int argc, char const *argv[])
+int main(int argc, char* argv[])
 {
     int qtdCont1 , qtdCont2, qtdCont3;
 
-    ifstream inputFile("input.txt"); // Abrir o arquivo de entrada
+    ifstream inputFile(argv[1]); // Abrir o arquivo de entrada
     if (!inputFile) {
         cerr << "Erro ao abrir o arquivo input.txt" << endl;
         return 1;
@@ -215,6 +215,8 @@ int main(int argc, char const *argv[])
              << difPeso << "kg(" << static_cast<int>(round(conjunto3[i].difPercent)) << "%)" << endl;
     }
     }
+
+    ofstream outputFile(argv[2]);
     // Liberar a memória alocada dinamicamente
     delete[] conjunto1;
     delete[] conjunto2;

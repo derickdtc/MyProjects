@@ -11,7 +11,6 @@ struct Container {
     char cnpj[20];
     int peso;
 };
-
 // Estrutura ContainerErrado
 struct ContainerErrado : public Container {
     char cnpjCerto[20];
@@ -20,38 +19,36 @@ struct ContainerErrado : public Container {
 };
 // Estrutura de nó para armazenar pares chave-valor
 struct HashNode {
-    char key[15];       // Código do container (chave)
-    Container value;    // Objeto Container (valor)
-    HashNode* next;     // Próximo nó na lista encadeada
+    char key[15];       
+    Container value;    
+    HashNode* prox;   
 
     HashNode(const char* k, const Container& v) {
         strcpy(key, k);
         value = v;
-        next = nullptr;
+        prox = nullptr;
     }
 };
-
 // Estrutura da Tabela Hash
 struct HashMap {
-    int size;           // Tamanho da tabela
-    HashNode** table;   // Array de listas encadeadas
-
+    int tamanho;           
+    HashNode** table;   
     // Construtor
     HashMap(int s) {
-        size = s;
-        table = new HashNode*[size];
-        for (int i = 0; i < size; i++) {
+        tamanho = s;
+        table = new HashNode*[tamanho];
+        for (int i = 0; i < tamanho; i++) {
             table[i] = nullptr;
         }
     }
 
     // Destrutor
     ~HashMap() {
-        for (int i = 0; i < size; i++) {
-            HashNode* current = table[i];
-            while (current) {
-                HashNode* toDelete = current;
-                current = current->next;
+        for (int i = 0; i < tamanho; i++) {
+            HashNode* aux = table[i];
+            while (aux) {
+                HashNode* toDelete = aux;
+                aux = aux->prox;
                 delete toDelete;
             }
         }
@@ -62,7 +59,7 @@ struct HashMap {
     int hashFunction(const char* key) {
         int hash = 0;
         for (int i = 0; key[i] != '\0'; i++) {
-            hash = (hash * 31 + key[i]) % size; // 31 é uma constante arbitrária
+            hash = (hash * 31 + key[i]) % tamanho; 
         }
         return hash;
     }
@@ -71,21 +68,20 @@ struct HashMap {
     void insert(const char* key, const Container& value) {
         int index = hashFunction(key);
         HashNode* newNode = new HashNode(key, value);
-
         // Inserir no início da lista encadeada
-        newNode->next = table[index];
+        newNode->prox = table[index];
         table[index] = newNode;
     }
 
     // Buscar um valor pela chave
     Container* search(const char* key) {
         int index = hashFunction(key);
-        HashNode* current = table[index];
-        while (current) {
-            if (strcmp(current->key, key) == 0) {
-                return &current->value;
+        HashNode* aux = table[index];
+        while (aux) {
+            if (strcmp(aux->key, key) == 0) {
+                return &aux->value;
             }
-            current = current->next;
+            aux = aux->prox;
         }
         return nullptr; // Não encontrado
     }
@@ -100,8 +96,7 @@ bool comparar(const ContainerErrado& a, const ContainerErrado& b) {
     if (strcmp(a.cnpj, a.cnpjCerto) == 0 && strcmp(b.cnpj, b.cnpjCerto) != 0) {
         return false;
     }
-
-    // Se ambos ou nenhum têm CNPJ errado, passar para o próximo critério
+    // Se ambos ou nenhum têm CNPJ errado, vamos para o próximo critério
     if (strcmp(a.cnpj, a.cnpjCerto) == 0 && strcmp(b.cnpj, b.cnpjCerto) == 0) {
         // Critério 2: Containers com diferença percentual de peso maior que 10%
         if (a.difPercent > 10.0 && b.difPercent <= 10.0) {
@@ -122,17 +117,16 @@ bool comparar(const ContainerErrado& a, const ContainerErrado& b) {
 }
 
 
-
 // Função para mesclar dois subarrays ordenados
 void merge(ContainerErrado* arr, int inicio, int meio, int fim) {
-    int n1 = meio - inicio + 1; // Tamanho do subarray esquerdo
-    int n2 = fim - meio;    // Tamanho do subarray direito
+    int n1 = meio - inicio + 1;
+    int n2 = fim - meio;    
 
     // Arrays temporários para os subarrays
     ContainerErrado* inicioArr = new ContainerErrado[n1];
     ContainerErrado* fimArr = new ContainerErrado[n2];
 
-    // Copiar os dados para os arrays temporários
+    // Copiando os dados para os arrays temporários
     for (int i = 0; i < n1; i++) {
         inicioArr[i] = arr[inicio + i];
     }
@@ -154,12 +148,10 @@ void merge(ContainerErrado* arr, int inicio, int meio, int fim) {
     while (i < n1) {
         arr[k++] = inicioArr[i++];
     }
-
     // Copiar os elementos restantes do subarray direito (se houver)
     while (j < n2) {
         arr[k++] = fimArr[j++];
     }
-
     // Liberar memória dos arrays temporários
     delete[] inicioArr;
     delete[] fimArr;
@@ -181,7 +173,7 @@ void mergeSort(ContainerErrado* arr, int inicio, int fim) {
 // Função para comparar containers e gerar o conjunto de containers errados
 ContainerErrado* compararContainersMsmCodigo(Container* conjunto1, int qtdCont1, Container* conjunto2, int qtdCont2, int& qtdCont3) {
     // Criar tabela hash personalizada
-    HashMap mapaCerto(1000000); // Tamanho da tabela hash (ajustar conforme necessário)
+    HashMap mapaCerto(1000000); // tamanho da tabela hash (ajustar conforme necessário)
     for (int i = 0; i < qtdCont1; i++) {
         mapaCerto.insert(conjunto1[i].codigo, conjunto1[i]);
     }
