@@ -16,8 +16,15 @@ int partirComLomutoPadrao(int arr[] , int first , int last){
         }        
     }
     swap(arr[i + 1], arr[last]);
-    return i + 1;
-    
+    return i + 1;    
+}
+int partirComLomutoAleatorio(int arr[], int first , int last){
+    int n = last - first + 1;
+    int random = arr[first + abs(arr[first] % n)];
+    // Swap A[random] with A[high]
+    swap(arr[random], arr[last]);
+ 
+    return partirComLomutoPadrao(arr, first, last);
 }
 
 int partirComHoarePadrao(int arr[], int first, int last) {
@@ -30,6 +37,17 @@ int partirComHoarePadrao(int arr[], int first, int last) {
         if(i < j ) swap(arr[i], arr[j]);
         else return j;
     }
+}  
+int partirComHoareAleatorio(int arr[], int first, int last) {
+   // Generate a random number in between
+    // low .. high
+    int n = last - first + 1;
+    int random = arr[first + abs(arr[first]) % n];
+ 
+    // Swap A[random] with A[high]
+    swap(arr[random], arr[first]);
+ 
+    return partirComHoarePadrao(arr, first, last);
 }  
 /*
 int partitionHoare(int arr[], int low, int high) {
@@ -74,20 +92,36 @@ int partir(int arr[] , int first , int last){
     
 }*/
 
-void quickSort(int arr[] , int first , int last){
+void quickSortLomutoPadrao(int arr[] , int first , int last){
     if (first < last)
     {
-        int pivotIndexAfterPartir = partirComHoarePadrao(arr , first , last);
-        quickSort(arr , first , pivotIndexAfterPartir - 1);
-        quickSort(arr , pivotIndexAfterPartir + 1 , last);
+        int pivotIndexAfterPartir = partirComLomutoPadrao(arr , first , last);
+        quickSortLomutoPadrao(arr , first , pivotIndexAfterPartir - 1);
+        quickSortLomutoPadrao(arr , pivotIndexAfterPartir + 1 , last);
     }
     
 }
-void quickSortHoare(int arr[], int low, int high) {
+void quickSortLomutoAleatorio(int arr[] , int first , int last){
+    if (first < last)
+    {
+        int pivotIndexAfterPartir = partirComLomutoAleatorio(arr , first , last);
+        quickSortLomutoAleatorio(arr , first , pivotIndexAfterPartir - 1);
+        quickSortLomutoAleatorio(arr , pivotIndexAfterPartir + 1 , last);
+    }
+    
+}
+void quickSortHoarePadrao(int arr[], int low, int high) {
     if (low < high) {
-        int pi = partirComHoarePadrao(arr, low, high);
-        quickSortHoare(arr, low, pi);    // Note que a recursão vai até 'pi', não 'pi - 1'
-        quickSortHoare(arr, pi + 1, high);
+        int pi = partirComHoareAleatorio(arr, low, high);
+        quickSortHoarePadrao(arr, low, pi);    // Note que a recursão vai até 'pi', não 'pi - 1'
+        quickSortHoarePadrao(arr, pi + 1, high);
+    }
+}
+void quickSortHoareAleatorio(int arr[], int low, int high) {
+    if (low < high) {
+        int pi = partirComHoareAleatorio(arr, low, high);
+        quickSortHoareAleatorio(arr, low, pi);    // Note que a recursão vai até 'pi', não 'pi - 1'
+        quickSortHoareAleatorio(arr, pi + 1, high);
     }
 }
 int main(int argc, char const *argv[])
@@ -101,7 +135,7 @@ int main(int argc, char const *argv[])
     cout << endl;
 
 
-    quickSortHoare(arr, 0, n - 1);
+    quickSortHoareAleatorio(arr, 0, n - 1);
 
     cout << "Array ordenado : ";
     for (int i = 0; i < n; i++)
