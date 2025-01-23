@@ -106,7 +106,7 @@ bool comparar(const ContainerErrado& a, const ContainerErrado& b) {
             return false;
         }
 
-        // Critério 3: Comparar pela diferença percentual em ordem decrescente
+        // Critério 3: Comparando pela diferença percentual da maior pra menor
         if (a.difPercent != b.difPercent) {
             return a.difPercent > b.difPercent;
         }
