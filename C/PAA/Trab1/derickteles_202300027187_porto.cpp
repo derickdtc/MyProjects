@@ -212,13 +212,17 @@ int main(int argc, char* argv[])
 {
     int qtdCont1 , qtdCont2, qtdCont3;
 
-    ifstream inputFile(argv[1]); // Abrir o arquivo de entrada
-    //ifstream inputFile("input.txt");
-    if (!inputFile) {
-        cerr << "Erro ao abrir o arquivo input.txt" << endl;
+     ifstream inputFile(argv[1]);
+    if (!inputFile.is_open()) {
+        cerr << "Erro ao abrir o arquivo de entrada!" << endl;
         return 1;
     }
-
+    // Abrindo o arquivo de saída
+    ofstream outputFile(argv[2]);
+    if (!outputFile.is_open()) {
+        cerr << "Erro ao abrir o arquivo de saída!" << endl;
+        return 1;
+    }
     inputFile>> qtdCont1;
     Container* conjunto1 = new Container[qtdCont1];
 
@@ -244,6 +248,7 @@ int main(int argc, char* argv[])
     mergeSort(conjuntoErrado, 0, qtdCont3 - 1);
 
     // Exibir o conjunto ordenado
+    /*
     for (int i = 0; i < qtdCont3; i++) {
         if (strcmp(conjuntoErrado[i].cnpj, conjuntoErrado[i].cnpjCerto) != 0) {
             cout << conjuntoErrado[i].codigo << ":"
@@ -254,8 +259,17 @@ int main(int argc, char* argv[])
                  << difPeso << "kg(" << static_cast<int>(round(conjuntoErrado[i].difPercent)) << "%)" << endl;
         }
     }
-    ofstream outputFile(argv[2]);
-
+    */
+    for (int i = 0; i < qtdCont3; i++) {
+        if (strcmp(conjuntoErrado[i].cnpj, conjuntoErrado[i].cnpjCerto) != 0) {
+            outputFile << conjuntoErrado[i].codigo << ":"
+                 << conjuntoErrado[i].cnpjCerto << "<->" << conjuntoErrado[i].cnpj << " "<< endl;
+        } else {
+            int difPeso = abs(conjuntoErrado[i].peso - conjuntoErrado[i].pesoCerto);
+            outputFile << conjuntoErrado[i].codigo << ":"
+                 << difPeso << "kg(" << static_cast<int>(round(conjuntoErrado[i].difPercent)) << "%)" << endl;
+        }
+    }
     // Liberar memória
     delete[] conjuntoErrado;
 

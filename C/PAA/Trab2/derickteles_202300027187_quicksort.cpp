@@ -182,98 +182,158 @@ void mostrarVetoresPosOrdenacao(int** vetores, int* tamanhos, int numVetores) {
         cout << endl;
     }
 }
-void restaurar(int** vetores , int* tamanhos , int numVetores , int** vetoresOriginais){
-    for (int i = 0; i < numVetores; i++) {
-        memcpy(vetores[i], vetoresOriginais[i], tamanhos[i] * sizeof(int));
+
+// merge sort para ordenção dos resultados
+void merge(string nomes[], int resultados[], int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+    // Arrays temporários para armazenar os valores
+    int leftResultados[n1], rightResultados[n2];
+    string leftNomes[n1], rightNomes[n2];
+    // Copia os dados para os arrays temporários
+    for (int i = 0; i < n1; i++) {
+        leftResultados[i] = resultados[left + i];
+        leftNomes[i] = nomes[left + i];
+    }
+    for (int i = 0; i < n2; i++) {
+        rightResultados[i] = resultados[mid + 1 + i];
+        rightNomes[i] = nomes[mid + 1 + i];
+    }
+    // Combina os dois arrays
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) {
+        if (leftResultados[i] <= rightResultados[j]) {
+            resultados[k] = leftResultados[i];
+            nomes[k] = leftNomes[i];
+            i++;
+        } else {
+            resultados[k] = rightResultados[j];
+            nomes[k] = rightNomes[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Copia os elementos restantes de cada metade
+    while (i < n1) {
+        resultados[k] = leftResultados[i];
+        nomes[k] = leftNomes[i];
+        i++;
+        k++;
+    }
+    while (j < n2) {
+        resultados[k] = rightResultados[j];
+        nomes[k] = rightNomes[j];
+        j++;
+        k++;
+    }
+}
+void mergeSort(string nomes[], int resultados[], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        // Ordena as metades
+        mergeSort(nomes, resultados, left, mid);
+        mergeSort(nomes, resultados, mid + 1, right);
+        // Combina as metades ordenadas
+        merge(nomes, resultados, left, mid, right);
     }
 }
 
-void executarEExibirResultados(int** vetores, int* tamanhos, int numVetores, int** vetoresOriginais) {
+void executarEExibirResultados(int** vetores, int* tamanhos, int numVetores, int** vetoresOriginais, ofstream& outputFile) {
     // Para cada vetor
     for (int i = 0; i < numVetores; i++) {
-        cout << i << ":N(" << tamanhos[i] << ")";
+        //cout << i << ":N(" << tamanhos[i] << ")";
+        outputFile << i << ":N(" << tamanhos[i] << ")";
 
-        // Array para armazenar os resultados das variantes
+        // Arrays para armazenar os resultados das variantes
         const int numVariantes = 6;
         string nomes[numVariantes] = {"LP", "HP", "LM", "HM", "LA", "HA"};
         int resultados[numVariantes];
 
+        // Criação de cópias para cada variante
+        int* copiaVetor = new int[tamanhos[i]];
+
         // Lomuto Padrão
+        memcpy(copiaVetor, vetoresOriginais[i], tamanhos[i] * sizeof(int));
         numTrocas = 0;
         numChamadas = 0;
-        quickSortLomutoPadrao(vetores[i], 0, tamanhos[i] - 1);
+        quickSortLomutoPadrao(copiaVetor, 0, tamanhos[i] - 1);
         resultados[0] = numTrocas + numChamadas;
-        restaurar(vetores, tamanhos, numVetores, vetoresOriginais);
 
         // Hoare Padrão
+        memcpy(copiaVetor, vetoresOriginais[i], tamanhos[i] * sizeof(int));
         numTrocas = 0;
         numChamadas = 0;
-        quickSortHoarePadrao(vetores[i], 0, tamanhos[i] - 1);
+        quickSortHoarePadrao(copiaVetor, 0, tamanhos[i] - 1);
         resultados[1] = numTrocas + numChamadas;
-        restaurar(vetores, tamanhos, numVetores, vetoresOriginais);
 
         // Lomuto Mediana
+        memcpy(copiaVetor, vetoresOriginais[i], tamanhos[i] * sizeof(int));
         numTrocas = 0;
         numChamadas = 0;
-        quickSortLomutoMediana(vetores[i], 0, tamanhos[i] - 1);
+        quickSortLomutoMediana(copiaVetor, 0, tamanhos[i] - 1);
         resultados[2] = numTrocas + numChamadas;
-        restaurar(vetores, tamanhos, numVetores, vetoresOriginais);
 
         // Hoare Mediana
+        memcpy(copiaVetor, vetoresOriginais[i], tamanhos[i] * sizeof(int));
         numTrocas = 0;
         numChamadas = 0;
-        quickSortHoareMediana(vetores[i], 0, tamanhos[i] - 1);
+        quickSortHoareMediana(copiaVetor, 0, tamanhos[i] - 1);
         resultados[3] = numTrocas + numChamadas;
-        restaurar(vetores, tamanhos, numVetores, vetoresOriginais);
 
         // Lomuto Aleatório
+        memcpy(copiaVetor, vetoresOriginais[i], tamanhos[i] * sizeof(int));
         numTrocas = 0;
         numChamadas = 0;
-        quickSortLomutoAleatorio(vetores[i], 0, tamanhos[i] - 1);
+        quickSortLomutoAleatorio(copiaVetor, 0, tamanhos[i] - 1);
         resultados[4] = numTrocas + numChamadas;
-        restaurar(vetores, tamanhos, numVetores, vetoresOriginais);
 
         // Hoare Aleatório
+        memcpy(copiaVetor, vetoresOriginais[i], tamanhos[i] * sizeof(int));
         numTrocas = 0;
         numChamadas = 0;
-        quickSortHoareAleatorio(vetores[i], 0, tamanhos[i] - 1);
+        quickSortHoareAleatorio(copiaVetor, 0, tamanhos[i] - 1);
         resultados[5] = numTrocas + numChamadas;
-        restaurar(vetores, tamanhos, numVetores, vetoresOriginais);
 
-        // Ordenar manualmente os resultados em ordem crescente (Bubble Sort)
-        for (int j = 0; j < numVariantes - 1; j++) {
-            for (int k = 0; k < numVariantes - j - 1; k++) {
-                if (resultados[k] > resultados[k + 1]) {
-                    // Troca os valores dos resultados
-                    int tempResultado = resultados[k];
-                    resultados[k] = resultados[k + 1];
-                    resultados[k + 1] = tempResultado;
-
-                    // Troca os nomes correspondentes
-                    string tempNome = nomes[k];
-                    nomes[k] = nomes[k + 1];
-                    nomes[k + 1] = tempNome;
-                }
-            }
-        }
+        // Ordenar os resultados usando Merge Sort
+        mergeSort(nomes, resultados, 0, numVariantes - 1);
 
         // Exibir os resultados ordenados
         for (int j = 0; j < numVariantes; j++) {
-            cout << "," << nomes[j] << "(" << resultados[j] << ")";
+            //cout << "," << nomes[j] << "(" << resultados[j] << ")";
+            outputFile << "," << nomes[j] << "(" << resultados[j] << ")";
+
         }
 
-        cout << endl; // Nova linha para o próximo vetor
+        outputFile << endl; // Nova linha para o próximo vetor
+
+        // Libera a memória alocada para a cópia
+        delete[] copiaVetor;
     }
 }
 
-int main(int argc, char  *argv[])
+
+
+int main(int argc, char *argv[])
 {
-    // Variáveis para numes     
-    int numChamadas= 0;
-    int numTrocas = 0;
-   ifstream inputFile("input.txt");
+    
+   //ifstream inputFile("input.txt");
+   // Verifica se os arquivos de entrada e saída foram fornecidos
+   /*
+    if (argc < 3) {
+        cerr << "Uso: " << argv[0] << " <arquivo_entrada> <arquivo_saida>" << endl;
+        return 1;
+    }*/
+    // Abrindo o arquivo de entrada
+    ifstream inputFile(argv[1]);
     if (!inputFile.is_open()) {
         cerr << "Erro ao abrir o arquivo de entrada!" << endl;
+        return 1;
+    }
+    // Abrindo o arquivo de saída
+    ofstream outputFile(argv[2]);
+    if (!outputFile.is_open()) {
+        cerr << "Erro ao abrir o arquivo de saída!" << endl;
         return 1;
     }
     // Lendo o número total de vetores
@@ -299,31 +359,9 @@ int main(int argc, char  *argv[])
     for (int i = 0; i < numVetores; i++) {
         vetoresOriginais[i] = new int[tamanhos[i]];
         memcpy(vetoresOriginais[i], vetores[i], tamanhos[i] * sizeof(int));
-    }
-
-    inputFile.close();   
+    }    
     
-    //Aplicando as ordenações Lomuto mediana
-    /*
-    for (int i = 0; i < numVetores; i++)
-    {
-        quickSortLomutoMediana(vetores[i], 0 , tamanhos[i] - 1);
-    }   
-    cout << "\n \n Vetores ordenados com Lomuto mediana" << endl;
-    mostrarVetoresPosOrdenacao(vetores , tamanhos , numVetores);
-    restaurar(vetores , tamanhos , numVetores, vetoresOriginais);
-    mostrarVetoresPosOrdenacao(vetores , tamanhos , numVetores);
-    //Aplicando as ordenações hoare mediana
-    for (int i = 0; i < numVetores; i++)
-    {
-        quickSortHoareMediana(vetores[i], 0 , tamanhos[i] - 1);
-    }   
-    cout << "\n \n Vetores ordenados com Hoare mediana" << endl;
-    mostrarVetoresPosOrdenacao(vetores , tamanhos , numVetores);
-    restaurar(vetores , tamanhos , numVetores, vetoresOriginais);
-    mostrarVetoresPosOrdenacao(vetores , tamanhos , numVetores);
-    */
-    executarEExibirResultados(vetores, tamanhos, numVetores, vetoresOriginais);
+    executarEExibirResultados(vetores, tamanhos, numVetores, vetoresOriginais , outputFile);
 
     // Liberando memória alocada
     for (int i = 0; i < numVetores; i++) {
@@ -331,6 +369,8 @@ int main(int argc, char  *argv[])
         delete[] vetoresOriginais[i];
 
     }
+    inputFile.close();  
+ 
     delete[] vetoresOriginais;
     delete[] vetores;
     delete[] tamanhos;
